@@ -13,7 +13,7 @@ from random import randint
 defaultELO = 1000 #I have no idea what a good elo is...so meh
 currentPath = os.path.dirname(os.path.abspath(__file__))
 
-#data = [][]
+data = []
 
 def makeResultsFile():
 	with open("Results.txt", "w") as f:
@@ -53,9 +53,10 @@ if __name__ == '__main__':
 		print("I made you a new Results file! NOW DO YOU LOVE ME DADDY!?")
 		makeResultsFile()
 
-	#for line in file:
-		#data.append(line.split(','))
-	#print(data)
+	with open("Results.txt", "r") as f:
+		for line in f:
+			data.append(line.split(','))
+	print(data)
 
 	
 	ImageA = int(1200)
