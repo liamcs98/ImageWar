@@ -23,10 +23,9 @@ def makeResultsFile():
 		#for line in ("Results.text", "w")
 		#	if line = "mainFile.py,1000" or "Results.text,1000"
 		# At some point i need to get rid of the first two lines of output.. right now, sloppy
-
-#Funtion that gets the ELO of the two competitors, + which one wins, does the meth, 
-#then returns NewEloA, New EloB
 def eloCalc(ELOA, ELOB, winner, k=32):
+	#This Funtion that gets the ELO of the two competitors, + which one wins, does the meth, 
+    #then returns NewEloA, New EloB
   
     if winner == "draw":
     	SOne = .5
@@ -45,16 +44,7 @@ def eloCalc(ELOA, ELOB, winner, k=32):
     ETwo = RTwo / (ROne + RTwo)
 
     return ROne + k * (SOne - EOne), RTwo + k * (STwo - ETwo)
-     
-
-
-     
-
-
-
-
-
-
+  
 
 if __name__ == '__main__':
 
