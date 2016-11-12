@@ -13,6 +13,8 @@ from random import randint
 defaultELO = 1000 #I have no idea what a good elo is...so meh
 currentPath = os.path.dirname(os.path.abspath(__file__))
 
+#data = [][]
+
 def makeResultsFile():
 	with open("Results.txt", "w") as f:
 		tempEloForWriting = str(defaultELO)
@@ -22,26 +24,32 @@ def makeResultsFile():
 		#	if line = "mainFile.py,1000" or "Results.text,1000"
 		# At some point i need to get rid of the first two lines of output.. right now, sloppy
 
-def expectedELO(A, B):
-    """
-    Calculate expected score of A in a match against B
+#Funtion that gets the ELO of the two competitors, + which one wins, does the meth, 
+#then returns NewEloA, New EloB
+def eloCalc(ELOA, ELOB, winner, k=32):
+  
+    if winner == "draw":
+    	SOne = .5
+    	STwo = .5
+    elif winner == "ImageA":
+    	SOne = 1
+    	STwo = 0
+    elif winner == "ImageB":
+    	SOne = 0
+    	STwo = 1
 
-    :param A: Elo rating for player A
-    :param B: Elo rating for player B
-    """
-    return 1 / (1 + 10 ** ((B - A) / 400))
+    ROne = 10**(int(ELOA)/400)
+    RTwo = 10**(int(ELOB)/400)
+
+    EOne = ROne / (ROne + RTwo)
+    ETwo = RTwo / (ROne + RTwo)
+
+    return ROne + k * (SOne - EOne), RTwo + k * (STwo - ETwo)
+     
 
 
-def eloCalc(old, exp, score, k=32):
-    """
-    Calculate the new Elo rating for a player
+     
 
-    :param old: The previous Elo rating
-    :param exp: The expected score for this match
-    :param score: The actual score for this match
-    :param k: The k-factor for Elo (default: 32)
-    """
-    return old + k * (score - exp)
 
 
 
@@ -54,11 +62,17 @@ if __name__ == '__main__':
 	if not os.path.exists(currentPath + "\Results.txt"):
 		print("I made you a new Results file! NOW DO YOU LOVE ME DADDY!?")
 		makeResultsFile()
+
+	#for line in file:
+		#data.append(line.split(','))
+	#print(data)
+
 	
-	ImageA = 1200
-	ImageB = 1000
+	ImageA = int(1200)
+	ImageB = int(1000)
+	winner = "ImageA"
 
-	exp = expectedELO(ImageA, ImageB)
+	NewImageA, NewImageB = eloCalc(ImageA, ImageB, winner)
 
-	print (round(eloCalc(ImageA, exp, 5), 5))
-	print (round(eloCalc(ImageB, exp, 5), 5))
+	print (round(NewImageA, 5))
+	print (round(NewImageB, 5))
