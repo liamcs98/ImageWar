@@ -14,11 +14,13 @@ defaultELO = 1000 #I have no idea what a good elo is...so meh
 currentPath = os.path.dirname(os.path.abspath(__file__))
 
 data = []
+NumberOfFiles = 0
 
 def makeResultsFile():
 	with open("Results.txt", "w") as f:
-		tempEloForWriting = str(defaultELO)
+		
 		for filename in os.listdir():
+			tempEloForWriting = str(randint(0,2000))
 			f.write(filename + ',' + tempEloForWriting + ',0,0' + '\n')
 		#for line in ("Results.text", "w")
 		#	if line = "mainFile.py,1000" or "Results.text,1000"
@@ -56,14 +58,23 @@ if __name__ == '__main__':
 	with open("Results.txt", "r") as f:
 		for line in f:
 			data.append(line.split(','))
-	print(data)
+		#	print (line)
+			NumberOfFiles = NumberOfFiles + 1
+		#print(NumberOfFiles)
+		#print(data)
+
+	ImageANum = int(randint(0,NumberOfFiles-1))
+	ImageBNum = int(randint(0,NumberOfFiles-1))
+
+	if ImageANum == ImageBNum:
+		ImageANum = randint(0,NumberOfFiles-1)
 
 	
-	ImageA = int(1200)
-	ImageB = int(1000)
+	ImageAElo = data[ImageANum][1]
+	ImageBElo = data[ImageBNum][1]
 	winner = "ImageA"
 
-	NewImageA, NewImageB = eloCalc(ImageA, ImageB, winner)
+	NewImageAElo, NewImageBElo = eloCalc(ImageAElo, ImageBElo, winner)
 
-	print (round(NewImageA, 5))
-	print (round(NewImageB, 5))
+	print (round(NewImageAElo, 5))
+	print (round(NewImageBElo, 5))
