@@ -6,6 +6,7 @@ from PIL import Image, ImageFilter
 import os
 import shutil
 from random import randint
+from tkinter import *
 
 #For later
 #print(randint(0,9))
