@@ -1,6 +1,6 @@
 #William Smith
 #Goal: Use ELO math to rank images in a directory
-#
+#TO FUCKING DO, LEARN ABOUT ARRAYS... ShIT MAKES NO SENSE
 #
 from PIL import Image, ImageFilter
 import os
@@ -38,8 +38,8 @@ def eloCalc(ELOA, ELOB, winner, k=32):
     	SOne = 0
     	STwo = 1
 
-    ROne = 10**(int(ELOA)/400)
-    RTwo = 10**(int(ELOB)/400)
+	ROne = 10**(int(ELOA)/400)
+	RTwo = 10**(int(ELOB)/400)
 
     EOne = ROne / (ROne + RTwo)
     ETwo = RTwo / (ROne + RTwo)
@@ -58,36 +58,33 @@ if __name__ == '__main__':
 
 	with open("Results.txt", "r") as f:
 		for line in f:
-			#print ([element.strip() for element in line.split(',')])
 			# So this fucking line here has a lot going on. Reminder to future me to try to understand it better. 
-			data.append([[filename, int(elo), int(wins), int(losses)] for filename, elo, wins, losses in [[element.strip() for element in line.split(',')]]])
+			data.append([[filename, int(elo), int(wins), int(losses)] for filename, elo, wins, losses in [[element.strip() for element in line.split(',')]]][0])
 			
 			
 			NumberOfFiles += 1
+	ImageANum = int(randint(0,NumberOfFiles-1))
+	ImageBNum = int(randint(0,NumberOfFiles-1))
 
-#	ImageANum = int(randint(0,NumberOfFiles-1))
-#	ImageBNum = int(randint(0,NumberOfFiles-1))
+	if ImageANum == ImageBNum:
+		ImageANum = randint(0,NumberOfFiles-1)
 
-#	if ImageANum == ImageBNum:
-#		ImageANum = randint(0,NumberOfFiles-1)
-#
-#	
-#	ImageAElo = data[ImageANum][1]
-#	ImageBElo = data[ImageBNum][1]
-#	winner = "ImageA"
-#
-#	NewImageAElo, NewImageBElo = eloCalc(ImageAElo, ImageBElo, winner)
-#
-#	NewImageAElo = round(int(NewImageAElo), 5)
-#	NewImageBElo = round(int(NewImageBElo), 5)
-#
-#	data[ImageANum][1] = NewImageAElo
-#	data[ImageBNum][1] = NewImageBElo
-#
-#	with open("Results.txt", "w") as f:
-#		for filename, elo, wins, losses in data:
-#			f.write("%s,%i,%i,%i" % (filename, elo, wins, losses))
+	print(data)
+	ImageAElo = data[ImageANum][1]
+	ImageBElo = data[ImageBNum][1]
+	winner = "ImageA"
+
+	NewImageAElo, NewImageBElo = eloCalc(ImageAElo, ImageBElo, winner)
+
+	NewImageAElo = round(int(NewImageAElo), 5)
+	NewImageBElo = round(int(NewImageBElo), 5)
+
+	data[ImageANum][1] = NewImageAElo
+	data[ImageBNum][1] = NewImageBElo
+
+	with open("Results.txt", "w") as f:
+		for filename, elo, wins, losses in data:
+			f.write("%s,%i,%i,%i \n" % (filename, elo, wins, losses))
 
 
-#	print(data)
 
