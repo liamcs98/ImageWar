@@ -13,21 +13,20 @@ from random import randint
 defaultELO = 1000 #I have no idea what a good elo is...so meh
 currentPath = os.path.dirname(os.path.abspath(__file__))
 
-data = []
-NumberOfFiles = 0
+
 
 def makeResultsFile():
 	with open("Results.txt", "w") as f:
 		
 		for filename in os.listdir():
 			tempEloForWriting = str(randint(0,2000))
-			f.write(filename + ',' + tempEloForWriting + ',0,0' + '\n')
+			f.write(filename + ',' + tempEloForWriting + ',0,0\n')
 		#for line in ("Results.text", "w")
 		#	if line = "mainFile.py,1000" or "Results.text,1000"
 		# At some point i need to get rid of the first two lines of output.. right now, sloppy
 def eloCalc(ELOA, ELOB, winner, k=32):
 	#This Funtion that gets the ELO of the two competitors, + which one wins, does the meth, 
-    #then returns NewEloA, New EloB
+    #then returns NewEloA, NewEloB
   
     if winner == "draw":
     	SOne = .5
@@ -49,6 +48,8 @@ def eloCalc(ELOA, ELOB, winner, k=32):
   
 
 if __name__ == '__main__':
+	data = []
+	NumberOfFiles = 0
 
 	#So, this checks if, in the current folder, there is a results file
 	if not os.path.exists(currentPath + "\Results.txt"):
@@ -57,24 +58,36 @@ if __name__ == '__main__':
 
 	with open("Results.txt", "r") as f:
 		for line in f:
-			data.append(line.split(','))
-		#	print (line)
-			NumberOfFiles = NumberOfFiles + 1
-		#print(NumberOfFiles)
-		#print(data)
+			#print ([element.strip() for element in line.split(',')])
+			# So this fucking line here has a lot going on. Reminder to future me to try to understand it better. 
+			data.append([[filename, int(elo), int(wins), int(losses)] for filename, elo, wins, losses in [[element.strip() for element in line.split(',')]]])
+			
+			
+			NumberOfFiles += 1
 
-	ImageANum = int(randint(0,NumberOfFiles-1))
-	ImageBNum = int(randint(0,NumberOfFiles-1))
+#	ImageANum = int(randint(0,NumberOfFiles-1))
+#	ImageBNum = int(randint(0,NumberOfFiles-1))
 
-	if ImageANum == ImageBNum:
-		ImageANum = randint(0,NumberOfFiles-1)
+#	if ImageANum == ImageBNum:
+#		ImageANum = randint(0,NumberOfFiles-1)
+#
+#	
+#	ImageAElo = data[ImageANum][1]
+#	ImageBElo = data[ImageBNum][1]
+#	winner = "ImageA"
+#
+#	NewImageAElo, NewImageBElo = eloCalc(ImageAElo, ImageBElo, winner)
+#
+#	NewImageAElo = round(int(NewImageAElo), 5)
+#	NewImageBElo = round(int(NewImageBElo), 5)
+#
+#	data[ImageANum][1] = NewImageAElo
+#	data[ImageBNum][1] = NewImageBElo
+#
+#	with open("Results.txt", "w") as f:
+#		for filename, elo, wins, losses in data:
+#			f.write("%s,%i,%i,%i" % (filename, elo, wins, losses))
 
-	
-	ImageAElo = data[ImageANum][1]
-	ImageBElo = data[ImageBNum][1]
-	winner = "ImageA"
 
-	NewImageAElo, NewImageBElo = eloCalc(ImageAElo, ImageBElo, winner)
+#	print(data)
 
-	print (round(NewImageAElo, 5))
-	print (round(NewImageBElo, 5))
