@@ -17,6 +17,8 @@ ImageANum = 0
 ImageBNum = 0 
 ImageAElo = 0
 ImagebElo = 0
+imageA = 0 
+imageB = 0
 
 
 def makeResultsFile():
@@ -88,7 +90,7 @@ def randomImages():
 	while ImageANum == ImageBNum:
 		ImageANum = randint(0,NumberOfFiles-1)
 def uglyELOWinnerA(event):
-	global ImageAElo, ImageBElo
+	global ImageAElo, ImageBElo, imageA, imageB
 	NewImageAElo, NewImageBElo = eloCalc(ImageAElo, ImageBElo, "ImageA")
 	print("WinnerA")
 
@@ -104,8 +106,33 @@ def uglyELOWinnerA(event):
 	ImageAElo = data[ImageANum][1]
 	ImageBElo = data[ImageBNum][1]
 
+	buttonforimageA = Button(root, text = "Better")
+	buttonforimageB = Button(root, text = "Better")
+
+
+	imageFileA = PIL.Image.open(data[ImageANum][0])
+	imageFileB = PIL.Image.open(data[ImageBNum][0])
+	imageFileA = imageFileA.resize((300,300))
+	imageFileB = imageFileB.resize((300,300))
+	photoA = PIL.ImageTk.PhotoImage(imageFileA)
+	photoB = PIL.ImageTk.PhotoImage(imageFileB)
+
+	imageA = Label(root, image=photoA)
+	imageB = Label(root, image=photoB)
+	imageA.image = photoA
+	imageB.image = photoB
+
+	buttonforimageA.bind("<Button-1>", uglyELOWinnerA)
+	buttonforimageB.bind("<Button-1>", uglyELOWinnerB)
+
+	imageA.grid(row=0,column=0)
+	imageB.grid(row=0,column=1)
+	buttonforimageA.grid(row=1,column=0)
+	buttonforimageB.grid(row=1,column=1)
+
+
 def uglyELOWinnerB(event):
-	global ImageAElo, ImageBElo
+	global ImageAElo, ImageBElo, imageA, imageB
 	NewImageAElo, NewImageBElo = eloCalc(ImageAElo, ImageBElo, "ImageB")
 	print("WinnerB")
 
@@ -120,6 +147,33 @@ def uglyELOWinnerB(event):
 
 	ImageAElo = data[ImageANum][1]
 	ImageBElo = data[ImageBNum][1]
+
+	buttonforimageA = Button(root, text = "Better")
+	buttonforimageB = Button(root, text = "Better")
+
+
+	imageFileA = PIL.Image.open(data[ImageANum][0])
+	imageFileB = PIL.Image.open(data[ImageBNum][0])
+	imageFileA = imageFileA.resize((300,300))
+	imageFileB = imageFileB.resize((300,300))
+	photoA = PIL.ImageTk.PhotoImage(imageFileA)
+	photoB = PIL.ImageTk.PhotoImage(imageFileB)
+
+	imageA = Label(root, image=photoA)
+	imageB = Label(root, image=photoB)
+	imageA.image = photoA
+	imageB.image = photoB
+
+	buttonforimageA.bind("<Button-1>", uglyELOWinnerA)
+	buttonforimageB.bind("<Button-1>", uglyELOWinnerB)
+
+	imageA.grid(row=0,column=0)
+	imageB.grid(row=0,column=1)
+	buttonforimageA.grid(row=1,column=0)
+	buttonforimageB.grid(row=1,column=1)
+
+
+
 
 
 if __name__ == '__main__':
