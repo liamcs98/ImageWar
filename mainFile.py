@@ -15,6 +15,8 @@ data = []
 NumberOfFiles = 0
 ImageANum = 0 
 ImageBNum = 0 
+ImageAElo = 0
+ImagebElo = 0
 
 
 def makeResultsFile():
@@ -56,6 +58,9 @@ def eloCalc(ELOA, ELOB, winner, k=32):
 	EOne = ROne / (ROne + RTwo)
 	ETwo = RTwo / (ROne + RTwo)
 
+	print(ROne + k * (SOne - EOne))
+	print(RTwo + k * (STwo - ETwo))
+
 	return ROne + k * (SOne - EOne), RTwo + k * (STwo - ETwo)
 def parseResultsFileToData():
 	global data, NumberOfFiles
@@ -68,6 +73,7 @@ def updateResultsFile():
 	with open("Results.txt", "w") as f:
 		for filename, elo, wins, losses in data:
 			f.write("%s,%i,%i,%i \n" % (filename, elo, wins, losses))
+	print("Updated Results File.")
 def randomImages():
 	global ImageANum, ImageBNum
 	#Check to make sure that I have at least two files. 
@@ -77,10 +83,12 @@ def randomImages():
 
 	ImageANum = int(randint(0,NumberOfFiles-1))
 	ImageBNum = int(randint(0,NumberOfFiles-1))
+	print("Random Images Selected.")
 
 	while ImageANum == ImageBNum:
 		ImageANum = randint(0,NumberOfFiles-1)
-def uglyELOWinnerA():
+def uglyELOWinnerA(event):
+	global ImageAElo, ImageBElo
 	NewImageAElo, NewImageBElo = eloCalc(ImageAElo, ImageBElo, "ImageA")
 	print("WinnerA")
 
@@ -91,7 +99,13 @@ def uglyELOWinnerA():
 	data[ImageBNum][1] = NewImageBElo
 
 	updateResultsFile()
-def uglyELOWinnerB():
+	randomImages()
+
+	ImageAElo = data[ImageANum][1]
+	ImageBElo = data[ImageBNum][1]
+
+def uglyELOWinnerB(event):
+	global ImageAElo, ImageBElo
 	NewImageAElo, NewImageBElo = eloCalc(ImageAElo, ImageBElo, "ImageB")
 	print("WinnerB")
 
@@ -102,6 +116,10 @@ def uglyELOWinnerB():
 	data[ImageBNum][1] = NewImageBElo
 
 	updateResultsFile()
+	randomImages()
+
+	ImageAElo = data[ImageANum][1]
+	ImageBElo = data[ImageBNum][1]
 
 
 if __name__ == '__main__':
@@ -139,7 +157,9 @@ if __name__ == '__main__':
 	imageB = Label(root, image=photoB)
 	imageA.image = photoA
 	imageB.image = photoB
-	#MOTHERFUCKING CAPTICAL "B"
+
+	#MOTHERFUCKING CAPTICAL "B" Also, this code call the funtion of the winner, and should (hypothetically) allow for the 
+	#program to be a loop... right now there is no refresh of the picture. 
 	buttonforimageA.bind("<Button-1>", uglyELOWinnerA)
 	buttonforimageB.bind("<Button-1>", uglyELOWinnerB)
 
