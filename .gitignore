@@ -70,7 +70,7 @@ target/
 .ipynb_checkpoints
 
 # pyenv
-.python-version
+.python-versio
 
 # celery beat schedule file
 celerybeat-schedule
@@ -87,3 +87,12 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# Images
+*.png
+*.jpg
+*.jpeg
+*.fuckyouconner
+*.gif
+*.jif
+
