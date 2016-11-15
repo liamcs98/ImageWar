@@ -13,6 +13,8 @@ defaultELO = 1000 #I have no idea what a good elo is...so meh
 currentPath = os.path.dirname(os.path.abspath(__file__))
 data = []
 NumberOfFiles = 0
+ImageANum = 0 
+ImageBNum = 0 
 
 
 def makeResultsFile():
@@ -34,7 +36,6 @@ def makeResultsFile():
 		#for line in ("Results.text", "w")
 		#	if line = "mainFile.py,1000" or "Results.text,1000"
 		# At some point i need to get rid of the first two lines of output.. right now, sloppy
-
 def eloCalc(ELOA, ELOB, winner, k=32):
 	#This Funtion that gets the ELO of the two competitors, + which one wins, does the meth, 
 	#then returns NewEloA, NewEloB
@@ -67,16 +68,8 @@ def updateResultsFile():
 	with open("Results.txt", "w") as f:
 		for filename, elo, wins, losses in data:
 			f.write("%s,%i,%i,%i \n" % (filename, elo, wins, losses))
-
-if __name__ == '__main__':
-
-
-	#So, this checks if, in the current folder, there is a results file
-	if not os.path.exists(currentPath + "\Results.txt"):
-		print("I made you a new Results file! NOW DO YOU LOVE ME DADDY!?")
-		makeResultsFile()
-	parseResultsFileToData()
-
+def randomImages():
+	global ImageANum, ImageBNum
 	#Check to make sure that I have at least two files. 
 	if NumberOfFiles <= 1:
 		print("Liam....number of files? Sigh")
@@ -87,12 +80,9 @@ if __name__ == '__main__':
 
 	while ImageANum == ImageBNum:
 		ImageANum = randint(0,NumberOfFiles-1)
-
-	ImageAElo = data[ImageANum][1]
-	ImageBElo = data[ImageBNum][1]
-	winner = "ImageA"
-
-	NewImageAElo, NewImageBElo = eloCalc(ImageAElo, ImageBElo, winner)
+def uglyELOWinnerA():
+	NewImageAElo, NewImageBElo = eloCalc(ImageAElo, ImageBElo, "ImageA")
+	print("WinnerA")
 
 	NewImageAElo = round(int(NewImageAElo), 5)
 	NewImageBElo = round(int(NewImageBElo), 5)
@@ -101,6 +91,36 @@ if __name__ == '__main__':
 	data[ImageBNum][1] = NewImageBElo
 
 	updateResultsFile()
+def uglyELOWinnerB():
+	NewImageAElo, NewImageBElo = eloCalc(ImageAElo, ImageBElo, "ImageB")
+	print("WinnerB")
+
+	NewImageAElo = round(int(NewImageAElo), 5)
+	NewImageBElo = round(int(NewImageBElo), 5)
+
+	data[ImageANum][1] = NewImageAElo
+	data[ImageBNum][1] = NewImageBElo
+
+	updateResultsFile()
+
+
+if __name__ == '__main__':
+
+
+	#So, this checks if, in the current folder, there is a results file
+	if not os.path.exists(currentPath + "\Results.txt"):
+		print("I made you a new Results file! NOW DO YOU LOVE ME DADDY!?")
+		makeResultsFile()
+	
+	parseResultsFileToData()
+	randomImages()
+
+
+
+
+	ImageAElo = data[ImageANum][1]
+	ImageBElo = data[ImageBNum][1]
+###############
 
 	root = Tk()
 
@@ -119,6 +139,9 @@ if __name__ == '__main__':
 	imageB = Label(root, image=photoB)
 	imageA.image = photoA
 	imageB.image = photoB
+	#MOTHERFUCKING CAPTICAL "B"
+	buttonforimageA.bind("<Button-1>", uglyELOWinnerA)
+	buttonforimageB.bind("<Button-1>", uglyELOWinnerB)
 
 	imageA.grid(row=0,column=0)
 	imageB.grid(row=0,column=1)
@@ -128,6 +151,8 @@ if __name__ == '__main__':
 
 
 	root.mainloop()
+
+#################
 
 
 
