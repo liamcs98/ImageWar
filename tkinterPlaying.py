@@ -1,4 +1,5 @@
 from tkinter import *
+from PIL import Image, ImageTk
 '''
 root = Tk()
 topframe = Frame(root)
@@ -72,3 +73,48 @@ frame.pack()
 root.mainloop()
 '''
 
+
+'''
+class LiamsButtons:
+	def __init__(self, master):
+		frame=Frame(master)
+		frame.pack()
+
+		self.printButton = Button(frame, text="Message", command=self.printMessage)
+		self.printButton.pack(side=LEFT)
+
+		self.quitButton = Button(frame, text="Quit", command=frame.quit)
+		self.quitButton.pack(side=LEFT)
+	def printMessage(self):
+		print("Worky!")
+
+root = Tk()
+b = LiamsButtons(root)
+root.mainloop()
+'''
+
+root = Tk()
+
+buttonforimageA = Button(root, text = "Better")
+buttonforimageB = Button(root, text = "Better")
+
+
+
+imageFileA = Image.open("rain.jpg")
+imageFileB = Image.open("darth.jpg")
+photoA = ImageTk.PhotoImage(imageFileA)
+photoB = ImageTk.PhotoImage(imageFileB)
+
+imageA = Label(root, image=photoA)
+imageB = Label(root, image=photoB)
+imageA.image = photoA
+imageB.image = photoB
+
+imageA.grid(row=0,column=0)
+imageB.grid(row=0,column=1)
+buttonforimageA.grid(row=1,column=0)
+buttonforimageB.grid(row=1,column=1)
+
+
+
+root.mainloop()
