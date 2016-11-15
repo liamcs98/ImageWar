@@ -60,10 +60,10 @@ def eloCalc(ELOA, ELOB, winner, k=32):
 	EOne = ROne / (ROne + RTwo)
 	ETwo = RTwo / (ROne + RTwo)
 
-	print(ROne + k * (SOne - EOne))
-	print(RTwo + k * (STwo - ETwo))
+	print(ELOA + k * (SOne - EOne))
+	print(ELOB + k * (STwo - ETwo))
 
-	return ROne + k * (SOne - EOne), RTwo + k * (STwo - ETwo)
+	return ELOA + k * (SOne - EOne), ELOB + k * (STwo - ETwo)
 def parseResultsFileToData():
 	global data, NumberOfFiles
 	with open("Results.txt", "r") as f:
@@ -129,8 +129,6 @@ def uglyELOWinnerA(event):
 	imageB.grid(row=0,column=1)
 	buttonforimageA.grid(row=1,column=0)
 	buttonforimageB.grid(row=1,column=1)
-
-
 def uglyELOWinnerB(event):
 	global ImageAElo, ImageBElo, imageA, imageB
 	NewImageAElo, NewImageBElo = eloCalc(ImageAElo, ImageBElo, "ImageB")
@@ -171,9 +169,6 @@ def uglyELOWinnerB(event):
 	imageB.grid(row=0,column=1)
 	buttonforimageA.grid(row=1,column=0)
 	buttonforimageB.grid(row=1,column=1)
-
-
-
 
 
 if __name__ == '__main__':
